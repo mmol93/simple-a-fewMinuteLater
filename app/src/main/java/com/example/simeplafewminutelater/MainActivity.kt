@@ -51,7 +51,22 @@ class MainActivity : AppCompatActivity() {
             alarmManager.cancel(pendingIntent)
         }
 
-
+        // 7. 정확한 알람이 울리도록 설정해본다
+        btn_exactTime.setOnClickListener {
+            val calendar: Calendar = Calendar.getInstance().apply {
+                timeInMillis = System.currentTimeMillis()
+                // 정확한 시간 설정
+                set(Calendar.HOUR_OF_DAY, 14)
+                set(Calendar.MINUTE, 43)
+                set(Calendar.SECOND, 0)
+                set(Calendar.DAY_OF_WEEK, 1)
+            }
+            val intent = Intent(context, Receiver::class.java)
+            val pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+            Log.d("test1", "Set exact Time: "+ Date().toString())
+            // 해당 시간에 Receive()로 신호 보내주기
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
+        }
     }
     // 2. 리시버 클래스 정의
     // 알람 울릴 시 할 행동을 여기에 정의한다

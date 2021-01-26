@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="number"
+        android:hint="초 단위 입력"
         />
 
     <LinearLayout
@@ -42,5 +43,11 @@
             android:layout_weight="1"
             android:text="cancel" />
     </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_exactTime"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="정확한 시간 알람" />
 
 </LinearLayout>
