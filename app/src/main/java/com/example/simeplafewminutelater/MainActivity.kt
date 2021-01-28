@@ -5,6 +5,7 @@ import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -47,7 +48,7 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(context, Receiver::class.java)
             val pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
             Log.d("test1", "Cancel: "+ Date().toString())
-            // 6. 해당 펜딩인텐트에 있는 알람을 해제한다
+            // 6. 해당 펜딩인텐트에 있는 알람을 해제(삭제, 취소)한다
             alarmManager.cancel(pendingIntent)
         }
 
@@ -66,6 +67,12 @@ class MainActivity : AppCompatActivity() {
             Log.d("test1", "Set exact Time: "+ Date().toString())
             // 해당 시간에 Receive()로 신호 보내주기
             alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+                alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
+            }else{
+                alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
+            }
         }
     }
     // 2. 리시버 클래스 정의
